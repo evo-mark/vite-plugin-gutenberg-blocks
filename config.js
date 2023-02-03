@@ -10,13 +10,12 @@ export const config = (config, { command }) => {
 			lib: {
 				entry: resolve(pwd, "src/index.jsx"),
 				name: "index",
-				formats: ["cjs"],
+				formats: ["iife"],
 				fileName: () => "index.js",
 			},
 			outDir: resolve(pwd, "../../../build/" + block),
 			rollupOptions: {
 				input: resolve(pwd, "src/index.jsx"),
-				preserveEntrySignatures: true,
 			},
 		},
 	};

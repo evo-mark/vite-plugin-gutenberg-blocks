@@ -1,12 +1,19 @@
 {
-	"name": "@southcoastweb/vite-plugin-gutenberg-blocks",
+	"name": "@south-coast-web/vite-plugin-gutenberg-blocks",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Vite-powered gutenberg block development for Wordpress",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "",
-	"license": "ISC"
+	"license": "private",
+	"devDependencies": {
+		"@vitejs/plugin-react": "^3.1.0",
+		"vite-plugin-static-copy": "^0.13.0"
+	},
+	"peerDependencies": {
+		"vite": "^4.1.1"
+	}
 }
