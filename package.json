@@ -2,18 +2,38 @@
 	"name": "@south-coast-web/vite-plugin-gutenberg-blocks",
 	"version": "1.0.0",
 	"description": "Vite-powered gutenberg block development for Wordpress",
-	"main": "index.js",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"build": "tsc",
+		"prepublish": "npm run build"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "private",
+	"files": [
+		"/dist"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
+	},
+	"keywords": [
+		"vite",
+		"wordpress",
+		"gutenberg",
+		"blocks",
+		"react"
+	],
+	"author": "South Coast Web",
+	"license": "MIT",
+	"homepage": "https://southcoastweb.co.uk",
 	"devDependencies": {
 		"@vitejs/plugin-react": "^3.1.0",
-		"vite-plugin-static-copy": "^0.13.0"
+		"vite-plugin-static-copy": "^0.13.0",
+		"@types/node": "18.11.17",
+		"tsup": "^6.0.1"
 	},
 	"peerDependencies": {
+		"typescript": ">=4.9.4",
 		"vite": "^4.1.1"
 	}
 }

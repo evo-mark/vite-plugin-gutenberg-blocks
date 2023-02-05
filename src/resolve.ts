@@ -1,7 +1,9 @@
+import type { InputOptions, OutputOptions, ExternalOption } from "rollup";
+
 const ns = "@wordpress/";
 const nsExclude = ["icons", "interface"];
 
-const external = {
+const external: Record<string, string> = {
 	jquery: "window.jQuery",
 	"lodash-es": "window.lodash",
 	lodash: "window.lodash",
@@ -12,20 +14,24 @@ const external = {
 
 const wordpressMatch = new RegExp(`^${ns}(?!(${nsExclude.join("|")})).*$`); // /^@wordpress\/(?!(icons|interface)).*$/
 
-export function options(options) {
-	if (!Array.isArray(options.external)) {
-		options.external = [options.external].filter(Boolean);
+export function options(options: InputOptions) {
+	if (Array.isArray(options.external) === false) {
+		// If string, RegExp or function
+		options.external = [options.external].filter(Boolean) as ExternalOption;
 	}
-	options.external = options.external.concat(Object.keys(external));
-	options.external.push(wordpressMatch);
+
+	if (Array.isArray(options.external)) {
+		options.external = options.external.concat(Object.keys(external));
+		options.external.push(wordpressMatch);
+	}
 
 	return options;
 }
 
-export function outputOptions(outputOptions) {
+export function outputOptions(outputOptions: OutputOptions) {
 	const configGlobals = outputOptions.globals;
 
-	const resolveGlobals = (id) => {
+	const resolveGlobals = (id: string) => {
 		// options.globals is an object - defer to it
 		if (typeof configGlobals === "object" && configGlobals.hasOwnProperty(id) && configGlobals[id]) {
 			return configGlobals[id];
@@ -52,6 +58,8 @@ export function outputOptions(outputOptions) {
 				.replace(/\//g, ".")
 				.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 		}
+
+		return "";
 	};
 
 	outputOptions.globals = resolveGlobals;
