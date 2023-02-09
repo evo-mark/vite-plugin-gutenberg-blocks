@@ -1,6 +1,6 @@
 {
 	"name": "@south-coast-web/vite-plugin-gutenberg-blocks",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
