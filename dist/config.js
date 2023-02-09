@@ -15,9 +15,7 @@ const config = (config, { command }) => {
                 fileName: () => "index.js",
             },
             outDir: (0, node_path_1.resolve)(pwd, "../../../build/" + block),
-            rollupOptions: {
-                input: (0, node_path_1.resolve)(pwd, "src/index.jsx"),
-            },
+            rollupOptions: {},
         },
     };
 };

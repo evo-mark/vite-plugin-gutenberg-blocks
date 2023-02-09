@@ -7,6 +7,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc",
+		"watch": "tsc --watch",
 		"prepublish": "npm run build"
 	},
 	"files": [
@@ -27,10 +28,12 @@
 	"license": "MIT",
 	"homepage": "https://southcoastweb.co.uk",
 	"devDependencies": {
-		"@vitejs/plugin-react": "^3.1.0",
-		"vite-plugin-static-copy": "^0.13.0",
 		"@types/node": "18.11.17",
-		"tsup": "^6.0.1"
+		"@vitejs/plugin-react": "^3.1.0",
+		"autoprefixer": "^10.4.13",
+		"cssnano": "^5.1.14",
+		"tsup": "^6.0.1",
+		"vite-plugin-static-copy": "^0.13.0"
 	},
 	"peerDependencies": {
 		"typescript": ">=4.9.4",

@@ -1,6 +1,14 @@
-import { generateBundle } from "./bundle";
+import { generateBundle } from "./generateBundle";
 import { options, outputOptions } from "./resolve";
 export declare const createViteBlock: (pluginConfig?: {}) => (import("vite").PluginOption[] | {
+    name: string;
+    transform(code: string, id: string): Promise<void>;
+    config?: undefined;
+    options?: undefined;
+    outputOptions?: undefined;
+    generateBundle?: undefined;
+    buildStart?: undefined;
+} | {
     name: string;
     config: (config: any, { command }: {
         command: any;
@@ -16,12 +24,11 @@ export declare const createViteBlock: (pluginConfig?: {}) => (import("vite").Plu
                 fileName: () => string;
             };
             outDir: string;
-            rollupOptions: {
-                input: string;
-            };
+            rollupOptions: {};
         };
     };
     options: typeof options;
     outputOptions: typeof outputOptions;
     generateBundle: typeof generateBundle;
+    buildStart: () => void;
 })[];

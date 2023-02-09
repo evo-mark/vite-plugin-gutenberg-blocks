@@ -12,8 +12,6 @@ export declare const config: (config: any, { command }: {
             fileName: () => string;
         };
         outDir: string;
-        rollupOptions: {
-            input: string;
-        };
+        rollupOptions: {};
     };
 };

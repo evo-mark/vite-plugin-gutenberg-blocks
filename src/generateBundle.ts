@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 import type { SourceMap } from "node:module";
 import type { OutputOptions, PluginContext } from "rollup";
 
-type EmittedAsset = {
+export type EmittedAsset = {
 	type: 'asset';
 	name?: string;
 	needsCodeReference?: boolean;
@@ -48,10 +48,12 @@ type ChunkInfo = {
 	type: "chunk";
 };
 
-export function generateBundle(this: PluginContext, options: OutputOptions, bundle: { [fileName: string]: AssetInfo | ChunkInfo }) {
+export function generateBundle(this: PluginContext, options: OutputOptions, bundle: { [fileName: string]:  ChunkInfo | AssetInfo }) {
 	let hash: string = "";
 
 	const imports = Object.values(bundle).reduce((acc, file) => {
+		if (!file.code) return acc;
+		
 		hash = crypto.createHash("md5").update(file.code).digest("hex");
 		file.imports.forEach((i) => {
 			i = i.replace(/^@wordpress\//, "wp-");
