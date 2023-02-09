@@ -5,40 +5,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createViteBlock = void 0;
 const generateBundle_1 = require("./generateBundle");
-const resolve_1 = require("./resolve");
+const options_1 = require("./options");
+const outputOptions_1 = require("./outputOptions");
 const config_1 = require("./config");
 const plugins_1 = __importDefault(require("./plugins"));
-const postcss_1 = __importDefault(require("postcss"));
-const cssnano_1 = __importDefault(require("cssnano"));
-const autoprefixer_1 = __importDefault(require("autoprefixer"));
+const transform_1 = require("./transform");
 const createViteBlock = (pluginConfig = {}) => {
+    const { watch = ["./src/template.php", "./src/render.php"] } = pluginConfig;
     return [
         {
-            name: "css-resolve",
-            async transform(code, id) {
-                if (/\.css/i.test(id) === false)
-                    return;
-                const cssFilePath = id
-                    .replace(process.cwd() + "/src", "")
-                    .replace(/\\/g, "/")
-                    .replace("/", "");
-                const output = await (0, postcss_1.default)([cssnano_1.default, autoprefixer_1.default]).process(code);
-                this.emitFile({
-                    type: "asset",
-                    fileName: cssFilePath,
-                    source: output.css,
-                });
-            },
-        },
-        {
-            name: "create-vite-block",
+            name: "vite-plugin-gutenberg-blocks",
             config: config_1.config,
-            options: resolve_1.options,
-            outputOptions: resolve_1.outputOptions,
-            generateBundle: generateBundle_1.generateBundle,
+            options: options_1.options,
+            outputOptions: outputOptions_1.outputOptions,
             buildStart: function () {
-                this.addWatchFile("./src/template.php");
+                watch.forEach((file) => this.addWatchFile(file));
             },
+            transform: transform_1.transform,
+            generateBundle: generateBundle_1.generateBundle,
         },
         ...plugins_1.default,
     ];

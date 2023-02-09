@@ -1,18 +1,14 @@
+import type { PluginContext } from "rollup";
 import { generateBundle } from "./generateBundle";
-import { options, outputOptions } from "./resolve";
-export declare const createViteBlock: (pluginConfig?: {}) => (import("vite").PluginOption[] | {
+import { options } from "./options";
+import { outputOptions } from "./outputOptions";
+import { transform } from "./transform";
+interface PluginConfig {
+    watch?: string[];
+}
+export declare const createViteBlock: (pluginConfig?: PluginConfig) => (import("vite").PluginOption[] | {
     name: string;
-    transform(code: string, id: string): Promise<void>;
-    config?: undefined;
-    options?: undefined;
-    outputOptions?: undefined;
-    generateBundle?: undefined;
-    buildStart?: undefined;
-} | {
-    name: string;
-    config: (config: any, { command }: {
-        command: any;
-    }) => {
+    config: () => {
         define: {
             "process.env.NODE_ENV": string;
         };
@@ -25,10 +21,15 @@ export declare const createViteBlock: (pluginConfig?: {}) => (import("vite").Plu
             };
             outDir: string;
             rollupOptions: {};
+            target: string;
+            minify: boolean;
+            cssCodeSplit: boolean;
         };
     };
     options: typeof options;
     outputOptions: typeof outputOptions;
+    buildStart: (this: PluginContext) => void;
+    transform: typeof transform;
     generateBundle: typeof generateBundle;
-    buildStart: () => void;
 })[];
+export {};

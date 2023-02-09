@@ -48,6 +48,17 @@ type ChunkInfo = {
 	type: "chunk";
 };
 
+/** 
+ * generateBundle
+ * 
+ * Wordpress blocks wont be detected unless an `index.asset.php` file is generated for each one which
+ * tells WP information about versioning and dependencies.
+ * 
+ * This function maps the imports from the @wordpress namespace, generates a version hash and then
+ * emits the required php file into the build folder
+ * 
+ * @see https://rollupjs.org/plugin-development/#generatebundle
+ */
 export function generateBundle(this: PluginContext, options: OutputOptions, bundle: { [fileName: string]:  ChunkInfo | AssetInfo }) {
 	let hash: string = "";
 

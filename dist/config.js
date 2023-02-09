@@ -2,7 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 const node_path_1 = require("node:path");
-const config = (config, { command }) => {
+/**
+ * config
+ *
+ * Provides Vite config settings required to build Gutenberg blocks
+ *
+ * @see https://vitejs.dev/guide/api-plugin.html#config
+ */
+const config = () => {
     const pwd = process.env.PWD;
     const block = pwd.split("/").pop();
     return {
@@ -16,6 +23,9 @@ const config = (config, { command }) => {
             },
             outDir: (0, node_path_1.resolve)(pwd, "../../../build/" + block),
             rollupOptions: {},
+            target: "esnext",
+            minify: true,
+            cssCodeSplit: true, // This option stops the default `styles.css` from being bundled
         },
     };
 };

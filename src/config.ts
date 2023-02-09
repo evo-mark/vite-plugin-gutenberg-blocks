@@ -1,6 +1,13 @@
 import { resolve } from "node:path";
 
-export const config = (config, { command }) => {
+/**
+ * config
+ *
+ * Provides Vite config settings required to build Gutenberg blocks
+ *
+ * @see https://vitejs.dev/guide/api-plugin.html#config
+ */
+export const config = () => {
 	const pwd = process.env.PWD;
 	const block = pwd.split("/").pop();
 
@@ -15,6 +22,9 @@ export const config = (config, { command }) => {
 			},
 			outDir: resolve(pwd, "../../../build/" + block),
 			rollupOptions: {},
+			target: "esnext",
+			minify: true,
+			cssCodeSplit: true, // This option stops the default `styles.css` from being bundled
 		},
 	};
 };

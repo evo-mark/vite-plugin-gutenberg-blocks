@@ -1,43 +1,29 @@
+import type { PluginContext } from "rollup";
 import { generateBundle } from "./generateBundle";
-import { options, outputOptions } from "./resolve";
+import { options } from "./options";
+import { outputOptions } from "./outputOptions";
 import { config } from "./config";
 import plugins from "./plugins";
-import type { EmittedAsset } from "./generateBundle";
-import postcss from "postcss";
-import cssnano from "cssnano";
-import autoprefixer from "autoprefixer";
+import { transform } from "./transform";
 
-export const createViteBlock = (pluginConfig = {}) => {
+interface PluginConfig {
+	watch?: string[];
+}
+
+export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
+	const { watch = ["./src/template.php", "./src/render.php"] } = pluginConfig;
+
 	return [
 		{
-			name: "css-resolve",
-			async transform(code: string, id: string) {
-				if (/\.css/i.test(id) === false) return;
-				const cssFilePath = id
-					.replace(process.cwd() + "/src", "")
-					.replace(/\\/g, "/")
-					.replace("/", "");
-
-
-				const output = await postcss([cssnano, autoprefixer]).process(code);
-
-
-				this.emitFile({
-					type: "asset",
-					fileName: cssFilePath,
-					source: output.css,
-				} satisfies EmittedAsset);
-			},
-		},
-		{
-			name: "create-vite-block",
+			name: "vite-plugin-gutenberg-blocks",
 			config,
 			options,
 			outputOptions,
-			generateBundle,
-			buildStart: function () {
-				this.addWatchFile("./src/template.php");
+			buildStart: function (this: PluginContext) {
+				watch.forEach((file) => this.addWatchFile(file));
 			},
+			transform,
+			generateBundle,
 		},
 		...plugins,
 	];

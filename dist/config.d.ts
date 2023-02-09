@@ -1,6 +1,11 @@
-export declare const config: (config: any, { command }: {
-    command: any;
-}) => {
+/**
+ * config
+ *
+ * Provides Vite config settings required to build Gutenberg blocks
+ *
+ * @see https://vitejs.dev/guide/api-plugin.html#config
+ */
+export declare const config: () => {
     define: {
         "process.env.NODE_ENV": string;
     };
@@ -13,5 +18,8 @@ export declare const config: (config: any, { command }: {
         };
         outDir: string;
         rollupOptions: {};
+        target: string;
+        minify: boolean;
+        cssCodeSplit: boolean;
     };
 };

@@ -1,9 +1,9 @@
 {
 	"name": "@south-coast-web/vite-plugin-gutenberg-blocks",
-	"version": "1.0.0",
-	"description": "Vite-powered gutenberg block development for Wordpress",
+	"version": "1.0.1",
+	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
-	"module": "dist/index.mjs",
+	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc",
@@ -32,7 +32,6 @@
 		"@vitejs/plugin-react": "^3.1.0",
 		"autoprefixer": "^10.4.13",
 		"cssnano": "^5.1.14",
-		"tsup": "^6.0.1",
 		"vite-plugin-static-copy": "^0.13.0"
 	},
 	"peerDependencies": {
