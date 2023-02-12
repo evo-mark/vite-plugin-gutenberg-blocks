@@ -33,6 +33,10 @@ fs.copyFileSync(
 	path.resolve(cwd + "/development/lerna.json"),
 	fs.constants.COPYFILE_FICLONE
 );
-fs.writeFileSync(path.resolve(cwd + "/development/.gitignore"), "build", { encoding: "utf-8" });
+
+const ignore = `build
+node_modules`;
+
+fs.writeFileSync(path.resolve(cwd + "/development/.gitignore"), ignore, { encoding: "utf-8" });
 
 console.log("Development environment created successfully");
