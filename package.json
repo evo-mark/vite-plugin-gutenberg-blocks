@@ -10,8 +10,12 @@
 		"watch": "tsc --watch",
 		"prepublish": "npm run build"
 	},
+	"bin": {
+		"init": "scripts/createDevelopmentEnvironment.js"
+	},
 	"files": [
-		"/dist"
+		"/dist",
+		"/scripts"
 	],
 	"repository": {
 		"type": "git",

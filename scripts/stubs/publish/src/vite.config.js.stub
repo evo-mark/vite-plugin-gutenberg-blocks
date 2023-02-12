@@ -1,0 +1,6 @@
+import { defineConfig } from "vite";
+import { createViteBlock } from "@south-coast-web/vite-plugin-gutenberg-blocks";
+
+export default defineConfig({
+	plugins: [createViteBlock()],
+});

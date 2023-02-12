@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "##namespace##/##block##",
+	"version": "0.1.0",
+	"title": "##name##",
+	"category": "##namespace##",
+	"description": "",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "##namespace##",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor-style.css",
+    "style": "file:./style.css"
+}

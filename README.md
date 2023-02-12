@@ -12,6 +12,7 @@ Develop a Gutenberg block library powered by Vite, with support for build and wa
 -   Automatic configuration of Vite
 -   Copies and creates required assets
 -   Externalised PostCSS stylesheet processing
+-   Watch mode for developing your block library
 
 #### Limitations
 
