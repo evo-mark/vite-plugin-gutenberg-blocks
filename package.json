@@ -8,7 +8,7 @@
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc --watch",
-		"prepublish": "npm run build"
+		"prepublishOnly": "npm run build"
 	},
 	"bin": {
 		"init": "scripts/createDevelopmentEnvironment.js"
@@ -32,6 +32,7 @@
 	"license": "MIT",
 	"homepage": "https://southcoastweb.co.uk",
 	"devDependencies": {
+		"@types/grecaptcha": "^3.0.4",
 		"@types/node": "18.11.17",
 		"@vitejs/plugin-react": "^3.1.0",
 		"autoprefixer": "^10.4.13",
