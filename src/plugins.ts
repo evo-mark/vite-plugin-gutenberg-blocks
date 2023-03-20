@@ -1,13 +1,13 @@
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import react from "@vitejs/plugin-react";
-import { resolve } from "node:path";
+import { resolve, sep } from "node:path";
 
 /* *********************************************
  * External plugins required for the build process
  * ******************************************* */
 
 const pwd = process.env.PWD;
-const block = pwd.split("/").pop();
+const block = pwd.split(sep).pop();
 
 const pluginCopy = viteStaticCopy({
 	targets: [

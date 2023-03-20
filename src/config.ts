@@ -1,4 +1,4 @@
-import { resolve } from "node:path";
+import { resolve, sep } from "node:path";
 
 /**
  * config
@@ -9,7 +9,7 @@ import { resolve } from "node:path";
  */
 export const config = () => {
 	const pwd = process.env.PWD;
-	const block = pwd.split("/").pop();
+	const block = pwd.split(sep).pop();
 
 	return {
 		define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },

@@ -1,6 +1,7 @@
 import { PluginContext } from 'rollup';
 import postcss from "postcss";
 import cssnano from "cssnano";
+import { sep } from "node:path";
 import autoprefixer from "autoprefixer";
 import type { EmittedAsset } from "./generateBundle";
 
@@ -18,7 +19,7 @@ import type { EmittedAsset } from "./generateBundle";
 export async function transform(this: PluginContext, code: string, id: string) {
         if (/\.css/i.test(id) === false) return;
         const cssFilePath = id
-            .replace(process.cwd() + "/src", "")
+            .replace(process.cwd() + sep + "src", "")
             .replace(/\\/g, "/")
             .replace("/", "");
 
