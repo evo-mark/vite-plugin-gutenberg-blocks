@@ -1,46 +1,46 @@
 {
-	"name": "vite-plugin-gutenberg-blocks",
-	"version": "1.1.5",
-	"description": "Vite-powered Gutenberg block development for Wordpress",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"scripts": {
-		"build": "tsc",
-		"watch": "tsc --watch",
-		"prepublishOnly": "npm run build"
-	},
-	"bin": {
-		"init": "scripts/createDevelopmentEnvironment.js"
-	},
-	"files": [
-		"/dist",
-		"/scripts"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
-	},
-	"keywords": [
-		"vite",
-		"wordpress",
-		"gutenberg",
-		"blocks",
-		"react"
-	],
-	"author": "South Coast Web",
-	"license": "MIT",
-	"homepage": "https://southcoastweb.co.uk",
-	"devDependencies": {
-		"@types/grecaptcha": "^3.0.4",
-		"@types/node": "^18.14.1",
-		"@vitejs/plugin-react": "^3.1.0",
-		"autoprefixer": "^10.4.13",
-		"cssnano": "^5.1.14",
-		"vite-plugin-static-copy": "^0.13.0"
-	},
-	"peerDependencies": {
-		"typescript": ">=4.9.4",
-		"vite": "^4.1.1"
-	}
+  "name": "vite-plugin-gutenberg-blocks",
+  "version": "1.1.6",
+  "description": "Vite-powered Gutenberg block development for Wordpress",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "bin": {
+    "init": "scripts/createDevelopmentEnvironment.js"
+  },
+  "files": [
+    "/dist",
+    "/scripts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
+  },
+  "keywords": [
+    "vite",
+    "wordpress",
+    "gutenberg",
+    "blocks",
+    "react"
+  ],
+  "author": "southcoastweb",
+  "license": "MIT",
+  "homepage": "https://southcoastweb.co.uk",
+  "devDependencies": {
+    "@types/grecaptcha": "^3.0.4",
+    "@types/node": "^18.14.1",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.13",
+    "cssnano": "^5.1.14",
+    "vite-plugin-static-copy": "^0.13.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.9.4",
+    "vite": "^4.1.1"
+  }
 }

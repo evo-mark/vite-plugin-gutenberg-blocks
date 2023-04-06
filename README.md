@@ -1,26 +1,21 @@
+<a href="https://southcoastweb.co.uk" target="_blank" alt="Link to southcoastweb's website">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://southcoastweb.co.uk/app/logo-dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://southcoastweb.co.uk/app/logo.svg">
+      <img alt="southcoastweb company logo" src="https://southcoastweb.co.uk/app/logo.svg">
+    </picture>
+</a>
+
+<p align="center">
+  <img src="https://img.shields.io/npm/dm/vite-plugin-gutenberg-blocks.svg" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/vite-plugin-gutenberg-blocks"><img src="https://img.shields.io/npm/v/vite-plugin-gutenberg-blocks.svg" alt="Version"></a>
+  <a href="https://github.com/craigrileyuk/vite-plugin-gutenberg-blocks/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/vite-plugin-gutenberg-blocks.svg" alt="License"></a>
+</p>
+
 # Vite Plugin: Gutenberg Blocks
 
 Develop a Gutenberg block library powered by Vite, with support for build and watch modes.
 
-## Installation
+---
 
-1. Create a new plugin folder
-2. Create a blank `package.json` file and then `npm i -D vite-plugin-gutenberg-blocks`
-3. Run `npx init` to create a `development` folder and a `register-blocks.php` file
-4. `cd` into `development`
-5. Run `npm i` to install the required dependencies
-6. Run `npm run create` to create a new Gutenberg block
-7. In your plugin's entry PHP file, simply `require_once` the `register-blocks.php` file
-
-From the `development` folder you can now `npm run dev` and `npm run prod` to develop your Gutenberg blocks library with Vite.
-
-## Features
-
--   Automatic configuration of Vite
--   Copies and creates required assets
--   Externalised PostCSS stylesheet processing
--   Watch mode for developing your block library
-
-## Limitations
-
--   Hot module reloading is not currently supported
+For installation and documentation instructions, go to [southcoastweb](https://southcoastweb.co.uk/open-source-software/vite-plugin-gutenberg-blocks/)
