@@ -3,7 +3,7 @@ import { generateBundle } from "./generateBundle";
 import { options } from "./options";
 import { outputOptions } from "./outputOptions";
 import { config } from "./config";
-import plugins from "./plugins";
+import { generatePlugins} from "./plugins";
 import { transform } from "./transform";
 
 interface PluginConfig {
@@ -26,6 +26,6 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 			transform,
 			generateBundle,
 		},
-		...plugins,
+		...generatePlugins({ outDir }),
 	];
 };
