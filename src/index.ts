@@ -8,15 +8,16 @@ import { transform } from "./transform";
 
 interface PluginConfig {
 	watch?: string[];
+	outDir?: string;
 }
 
 export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
-	const { watch = ["./src/template.php", "./src/render.php"] } = pluginConfig;
+	const { watch = ["./src/template.php", "./src/render.php"], outDir = null } = pluginConfig;
 
 	return [
 		{
 			name: "vite-plugin-gutenberg-blocks",
-			config,
+			config: () => config({ outDir }),
 			options,
 			outputOptions,
 			buildStart: function (this: PluginContext) {

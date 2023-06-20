@@ -7,7 +7,7 @@ import { resolve, sep } from "node:path";
  *
  * @see https://vitejs.dev/guide/api-plugin.html#config
  */
-export const config = () => {
+export const config = ({ outDir = null } = {}) => {
 	const pwd = process.env.PWD;
 	const block = pwd.split(sep).pop();
 
@@ -20,7 +20,7 @@ export const config = () => {
 				formats: ["iife"],
 				fileName: () => "index.js",
 			},
-			outDir: resolve(pwd, "../../../build/" + block),
+			outDir: outDir ? outDir + block : resolve(pwd, "../../../build/" + block),
 			rollupOptions: {},
 			target: "esnext",
 			minify: true,
