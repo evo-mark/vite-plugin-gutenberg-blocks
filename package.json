@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-gutenberg-blocks",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "Vite-powered Gutenberg block development for Wordpress",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -33,14 +33,19 @@
   "homepage": "https://southcoastweb.co.uk",
   "devDependencies": {
     "@types/grecaptcha": "^3.0.4",
-    "@types/node": "^18.14.1",
-    "@vitejs/plugin-react": "^3.1.0",
-    "autoprefixer": "^10.4.13",
-    "cssnano": "^5.1.14",
-    "vite-plugin-static-copy": "^0.13.0"
+    "@types/node": "^20.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "sass": "^1.63.6"
   },
   "peerDependencies": {
     "typescript": ">=4.9.4",
-    "vite": "^4.1.1"
+    "vite": "^4.1.1",
+    "sass": "^1.63.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.13",
+    "cssnano": "^6.0.0",
+    "postcss-scss": "^4.0.6",
+    "vite-plugin-static-copy": "^0.16.0"
   }
 }

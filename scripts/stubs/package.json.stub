@@ -21,7 +21,7 @@
 		"@wordpress/blocks": "^12.3.0",
 		"@wordpress/components": "^23.3.0",
 		"autoprefixer": "^10.4.13",
-		"lerna": "^6.4.1",
+		"lerna": "^7.0.0",
 		"postcss-import": "^15.1.0",
 		"vite": "^4.0.0",
 		"vite-plugin-static-copy": "^0.13.0"
