@@ -36,7 +36,11 @@ const exit = (msg) => {
 	process.exit(1);
 };
 
-const validateOptions = (namespace, slug, dir) => {
+const validateOptions = (company, namespace, slug, dir) => {
+	if (/[^a-zA-Z0-9-]/.test(company) === true) {
+		exit("NPM package namespace can only contain lowercase letters, numbers and hyphens");
+	}
+
 	if (!namespace) exit("No namespace specified!");
 	if (/[^a-zA-Z0-9-]/.test(namespace) === true) {
 		exit("Namespace can only contain lowercase letters, numbers and hyphens");
@@ -58,13 +62,17 @@ const validateOptions = (namespace, slug, dir) => {
 };
 
 const startApp = async () => {
+	let company = await readLineAsync("What NPM package namespace should be used? ");
+    if (company) company = "@" + company + "/";
+    else company = "";
+
 	const namespace = await readLineAsync("What library namespace would you like to use? ");
 	const blockName = await readLineAsync("What is the name of the new block? ");
 	readline.close();
 	const slug = slugify(blockName);
 	const dir = join(__dirname, `packages/${slug}`);
 
-	const isValid = validateOptions(namespace, slug, dir);
+	const isValid = validateOptions(company, namespace, slug, dir);
 	console.log(`Creating a new block as ${namespace}/${slug} with the name of "${blockName}"`);
 	if (isValid) {
 		mkdirSync(dir);
@@ -78,6 +86,7 @@ const startApp = async () => {
 		// e.g. "src/save.jsx"
 		const outputPath = `${dir}/${stub.replace(join(__dirname, `/stubs/`), "").replace(/\.stub$/, "")}`;
 		contents = contents
+            .replace(/##company##/gi, company)
 			.replace(/##namespace##/gi, namespace)
 			.replace(/##block##/g, slug)
 			.replace(/##name##/g, blockName);

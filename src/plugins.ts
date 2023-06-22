@@ -9,23 +9,27 @@ import { resolve, sep } from "node:path";
 const pwd = process.env.PWD;
 const block = pwd.split(sep).pop();
 
-const pluginCopy = viteStaticCopy({
-	targets: [
-		// Since they're not imported into the bundle, we need to copy these files manually
-		{
-			src: resolve(pwd, "src/block.json"),
-			dest: resolve(pwd, "../../../build/" + block),
-		},
-		{
-			src: resolve(pwd, "src/*.php"),
-			dest: resolve(pwd, "../../../build/" + block),
-		},
-	],
-});
+const generatePlugins = ({ outDir = null } = {}) => {
+  const pluginCopy = viteStaticCopy({
+    targets: [
+      // Since they're not imported into the bundle, we need to copy these files manually
+      {
+        src: resolve(pwd, "src/block.json"),
+        dest: ".",
+      },
+      {
+        src: resolve(pwd, "src/*.php"),
+        dest: ".",
+      },
+    ],
+  });
 
-const pluginReact = react({
-	jsxRuntime: "classic",
-	jsxImportSource: "@wordpress/element",
-});
+  const pluginReact = react({
+    jsxRuntime: "classic",
+    jsxImportSource: "@wordpress/element",
+  });
 
-export default [pluginCopy, pluginReact];
+  return [pluginCopy, pluginReact];
+};
+
+export default generatePlugins;
