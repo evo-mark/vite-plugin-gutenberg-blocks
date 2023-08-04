@@ -63,8 +63,8 @@ export function generateBundle(this: PluginContext, options: OutputOptions, bund
 	let hash: string = "";
 
 	const imports = Object.values(bundle).reduce((acc, file) => {
-		if (!file.code) return acc;
-		
+		if (!file.code || file.name === 'scripts.js') return acc;
+
 		hash = crypto.createHash("md5").update(file.code).digest("hex");
 		file.imports.forEach((i) => {
 			i = i.replace(/^@wordpress\//, "wp-");
@@ -77,5 +77,23 @@ export function generateBundle(this: PluginContext, options: OutputOptions, bund
 		type: "asset",
 		fileName: "index.asset.php",
 		source: `<?php return ["dependencies" => ${JSON.stringify(Array.from(imports))}, "version" => "${hash}"];`,
+	} satisfies EmittedAsset);
+	if(!Object.keys(bundle).includes("scripts.js")) return;
+	let frontendHash: string = "";
+	const importsFrontend = Object.values(bundle).reduce((acc, file) => {
+		if (!file.code || file.name !== 'scripts.js') return acc;
+
+		frontendHash = crypto.createHash("md5").update(file.code).digest("hex");
+		file.imports.forEach((i) => {
+			i = i.replace(/^@wordpress\//, "wp-");
+			acc.add(i);
+		}, acc);
+		return acc;
+	}, new Set());
+
+	this.emitFile({
+		type: "asset",
+		fileName: "scripts.asset.php",
+		source: `<?php return ["dependencies" => ${JSON.stringify(Array.from(importsFrontend))}, "version" => "${hash}"];`,
 	} satisfies EmittedAsset);
 }
