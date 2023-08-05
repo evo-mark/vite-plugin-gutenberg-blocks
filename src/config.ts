@@ -1,4 +1,5 @@
 import { resolve, sep } from "node:path";
+import { readFileSync } from "node:fs";
 
 /**
  * config
@@ -7,7 +8,7 @@ import { resolve, sep } from "node:path";
  *
  * @see https://vitejs.dev/guide/api-plugin.html#config
  */
-export const config = ({ outDir = null } = {}) => {
+export const config = ({ outDir = null, blockFile = null } = {}) => {
   const pwd = process.env.PWD;
   const block = pwd.split(sep).pop();
 

@@ -1,14 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "##namespace##/##block##",
 	"version": "0.1.0",
 	"title": "##name##",
 	"category": "##namespace##",
+    "keywords": [],
 	"description": "",
 	"supports": {
 		"html": false
 	},
+    "attributes": {},
+    "example": {},
 	"textdomain": "##namespace##",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./editor-style.css",
