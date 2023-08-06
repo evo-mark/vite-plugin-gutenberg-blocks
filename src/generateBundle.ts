@@ -1,9 +1,9 @@
-import crypto from "node:crypto";
+import { generateFileHash, generatePhpAssetFile } from "./utils";
 import type { SourceMap } from "node:module";
 import type { OutputOptions, PluginContext } from "rollup";
 
 export type EmittedAsset = {
-	type: 'asset';
+	type: "asset";
 	name?: string;
 	needsCodeReference?: boolean;
 	fileName?: string;
@@ -48,34 +48,38 @@ type ChunkInfo = {
 	type: "chunk";
 };
 
-/** 
+/**
  * generateBundle
- * 
+ *
  * Wordpress blocks wont be detected unless an `index.asset.php` file is generated for each one which
  * tells WP information about versioning and dependencies.
- * 
+ *
  * This function maps the imports from the @wordpress namespace, generates a version hash and then
  * emits the required php file into the build folder
- * 
+ *
  * @see https://rollupjs.org/plugin-development/#generatebundle
  */
-export function generateBundle(this: PluginContext, options: OutputOptions, bundle: { [fileName: string]:  ChunkInfo | AssetInfo }) {
+export function generateBundle(
+	this: PluginContext,
+	options: OutputOptions,
+	bundle: { [fileName: string]: ChunkInfo | AssetInfo }
+) {
 	let hash: string = "";
 
 	const imports = Object.values(bundle).reduce((acc, file) => {
 		if (!file.code) return acc;
-		
-		hash = crypto.createHash("md5").update(file.code).digest("hex");
+
+		hash = generateFileHash(file.code);
 		file.imports.forEach((i) => {
 			i = i.replace(/^@wordpress\//, "wp-");
 			acc.add(i);
 		}, acc);
 		return acc;
-	}, new Set());
+	}, new Set()) as Set<string>;
 
 	this.emitFile({
 		type: "asset",
 		fileName: "index.asset.php",
-		source: `<?php return ["dependencies" => ${JSON.stringify(Array.from(imports))}, "version" => "${hash}"];`,
+		source: generatePhpAssetFile(imports, hash),
 	} satisfies EmittedAsset);
 }

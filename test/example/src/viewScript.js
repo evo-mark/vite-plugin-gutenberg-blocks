@@ -1,4 +1,5 @@
 import { stuff } from "./nested/imported";
+import { __ } from "@wordpress/i18n";
 
 console.log(stuff);
-console.log("Here");
+console.log(__("Here"));
