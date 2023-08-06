@@ -1,52 +1,52 @@
 {
-  "name": "vite-plugin-gutenberg-blocks",
-  "version": "1.3.0",
-  "description": "Vite-powered Gutenberg block development for Wordpress",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "prepublishOnly": "npm run build"
-  },
-  "bin": {
-    "init": "scripts/createDevelopmentEnvironment.js"
-  },
-  "files": [
-    "/dist",
-    "/scripts"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
-  },
-  "keywords": [
-    "vite",
-    "wordpress",
-    "gutenberg",
-    "blocks",
-    "react"
-  ],
-  "author": "southcoastweb",
-  "license": "MIT",
-  "homepage": "https://southcoastweb.co.uk",
-  "devDependencies": {
-    "@types/grecaptcha": "^3.0.4",
-    "@types/node": "^20.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "postcss-scss": "^4.0.6",
-    "sass": "^1.63.6"
-  },
-  "peerDependencies": {
-    "sass": "^1.63.0",
-    "typescript": ">=4.9.4",
-    "vite": "^4.1.1"
-  },
-  "dependencies": {
-    "autoprefixer": "^10.4.13",
-    "cssnano": "^6.0.0",
-    "postcss-nested": "^6.0.1",
-    "vite-plugin-static-copy": "^0.17.0"
-  }
+	"name": "vite-plugin-gutenberg-blocks",
+	"version": "1.3.1",
+	"description": "Vite-powered Gutenberg block development for Wordpress",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc --watch",
+		"prepublishOnly": "npm run build"
+	},
+	"bin": {
+		"init": "scripts/createDevelopmentEnvironment.js"
+	},
+	"files": [
+		"/dist",
+		"/scripts"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
+	},
+	"keywords": [
+		"vite",
+		"wordpress",
+		"gutenberg",
+		"blocks",
+		"react"
+	],
+	"author": "southcoastweb",
+	"license": "MIT",
+	"homepage": "https://southcoastweb.co.uk",
+	"devDependencies": {
+		"@types/grecaptcha": "^3.0.4",
+		"@types/node": "^20.0.0",
+		"@vitejs/plugin-react": "^4.0.0",
+		"postcss-scss": "^4.0.6",
+		"sass": "^1.63.6"
+	},
+	"peerDependencies": {
+		"sass": "^1.63.0",
+		"typescript": ">=4.9.4",
+		"vite": "^4.1.1"
+	},
+	"dependencies": {
+		"autoprefixer": "^10.4.13",
+		"cssnano": "^6.0.0",
+		"postcss-nested": "^6.0.1",
+		"vite-plugin-static-copy": "^0.17.0"
+	}
 }
