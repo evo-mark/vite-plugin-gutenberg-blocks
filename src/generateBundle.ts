@@ -78,10 +78,11 @@ export function generateBundle(this: PluginContext, options: OutputOptions, bund
 		fileName: "index.asset.php",
 		source: `<?php return ["dependencies" => ${JSON.stringify(Array.from(imports))}, "version" => "${hash}"];`,
 	} satisfies EmittedAsset);
-	if(!Object.keys(bundle).includes("scripts.js")) return;
+
+	if(!Object.keys(bundle).includes("viewScript.js")) return;
 	let frontendHash: string = "";
 	const importsFrontend = Object.values(bundle).reduce((acc, file) => {
-		if (!file.code || file.name !== 'scripts.js') return acc;
+		if (!file.code || file.name !== 'viewScript.js') return acc;
 
 		frontendHash = crypto.createHash("md5").update(file.code).digest("hex");
 		file.imports.forEach((i) => {
@@ -93,7 +94,7 @@ export function generateBundle(this: PluginContext, options: OutputOptions, bund
 
 	this.emitFile({
 		type: "asset",
-		fileName: "scripts.asset.php",
+		fileName: "viewScript.asset.php",
 		source: `<?php return ["dependencies" => ${JSON.stringify(Array.from(importsFrontend))}, "version" => "${hash}"];`,
 	} satisfies EmittedAsset);
 }

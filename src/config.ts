@@ -1,4 +1,5 @@
 import { resolve, sep } from "node:path";
+import iife from "rollup-plugin-iife";
 import fs from "fs"
 /**
  * config
@@ -10,19 +11,21 @@ import fs from "fs"
 export const config = ({ outDir = null } = {}) => {
   const pwd = process.env.PWD;
   const block = pwd.split(sep).pop();
-  const frontendScriptPath = resolve(pwd, "src/frontend/scripts.jsx");
+  const frontendScriptPath = resolve(pwd, "src/frontend/viewScript.jsx");
   const backendScriptPath = resolve(pwd, "src/index.jsx");
   const isFrontendScript = fs.existsSync(frontendScriptPath);
   const entry = isFrontendScript ? [backendScriptPath, frontendScriptPath] : backendScriptPath;
-  const formats = isFrontendScript ? ["es"] : ["iife"];
+
   return {
     define: { "process.env.NODE_ENV": `"${process.env.NODE_ENV}"` },
     build: {
-      lib: {
-        entry,
-        name: "index",
-        formats,
-        fileName: (_, name : string) => name + ".js",
+      rollupOptions: {
+        input: entry,
+        plugins: [iife()],
+        output: {
+          entryFileNames: '[name].js',
+          assetFileNames: '[name].[ext]'
+        }
       },
       outDir: outDir ? outDir + block : resolve(pwd, "../../../build/" + block),
       target: "esnext",

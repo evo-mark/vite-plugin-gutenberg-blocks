@@ -35,7 +35,10 @@
     "@types/grecaptcha": "^3.0.4",
     "@types/node": "^20.0.0",
     "@vitejs/plugin-react": "^4.0.0",
+    "acorn": "^8.10.0",
+    "es-iife": "^0.2.2",
     "postcss-scss": "^4.0.6",
+    "rollup-plugin-iife": "^0.7.0",
     "sass": "^1.63.6"
   },
   "peerDependencies": {
