@@ -8,18 +8,26 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 	// Load the block.json options for "script" (frontend/backend) and "viewScript" (frontend)
 	const viewScript = blockJson.viewScript;
 	const standardScript = blockJson.script;
+
 	// Normalise into array
-	const standardScripts = Array.isArray(standardScript) ? standardScript : [standardScript];
+	let standardScripts = []
+	if (standardScript) {
+		standardScripts = Array.isArray(standardScript) ? standardScript : [standardScript];
+	}
+
+	let viewScripts = []
+	if (viewScript) {		
+		viewScripts = Array.isArray(viewScript) ? viewScript : [viewScript];
+	}
 
 	// Combine arrays into array of files
-	const viewScripts = (Array.isArray(viewScript) ? viewScript : [viewScript])
-		.concat(standardScripts)
+	const allScripts = viewScripts.concat(standardScripts)
 		.filter((script) => script.startsWith("file"))
 		.map((script) => {
 			return script.replace("file:./", "");
 		});
 
-	for (const script of viewScripts) {
+	for (const script of allScripts) {
 		const scriptPath = resolve(`${process.env.PWD}/src/${script}`);
 		let imports = [];
 		// Build the script as a sideloaded file that isn't injected into the main bundle
