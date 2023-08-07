@@ -21,8 +21,6 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 
 	for (const script of viewScripts) {
 		const scriptPath = resolve(`${process.env.PWD}/src/${script}`);
-		// Vite won't track this file for watching, so we'll add a manual watcher
-		this.addWatchFile("./src/" + script);
 		let imports = [];
 		// Build the script as a sideloaded file that isn't injected into the main bundle
 		const result = await esBuild({
