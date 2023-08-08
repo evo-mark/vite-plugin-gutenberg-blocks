@@ -4,22 +4,25 @@ import { build as esBuild } from "esbuild";
 import { resolve } from "node:path";
 import type { WordpressBlockJson } from "./transform";
 
+const normaliseArray = (source) => (Array.isArray(source) ? source : [source]);
+
 export async function sideload(blockJson: WordpressBlockJson, outputDirectory: string) {
 	// Load the block.json options for "script" (frontend/backend) and "viewScript" (frontend)
-	const viewScript = blockJson.viewScript;
-	const standardScript = blockJson.script;
+	const viewScript = blockJson?.viewScript ?? [];
+	const standardScript = blockJson?.script ?? [];
 	// Normalise into array
-	const standardScripts = Array.isArray(standardScript) ? standardScript : [standardScript];
+	const standardScripts = normaliseArray(standardScript);
+	const viewScripts = normaliseArray(viewScript);
 
 	// Combine arrays into array of files
-	const viewScripts = (Array.isArray(viewScript) ? viewScript : [viewScript])
+	const concatScripts = viewScripts
 		.concat(standardScripts)
 		.filter((script) => script.startsWith("file"))
 		.map((script) => {
 			return script.replace("file:./", "");
 		});
 
-	for (const script of viewScripts) {
+	for (const script of concatScripts) {
 		const scriptPath = resolve(`${process.env.PWD}/src/${script}`);
 		// Vite won't track this file for watching, so we'll add a manual watcher
 		this.addWatchFile("./src/" + script);
@@ -66,11 +69,16 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 
 		result.outputFiles.forEach((file) => {
 			const hash = generateFileHash(file.text);
-			const filename = extractFilenameWithoutExtension(file.path);
+			const filename = extractFilenameWithoutExtension(script);
 			this.emitFile({
 				type: "asset",
 				fileName: filename + ".asset.php",
 				source: generatePhpAssetFile(imports, hash),
+			} satisfies EmittedAsset);
+			this.emitFile({
+				type: "asset",
+				fileName: script,
+				source: file.contents,
 			} satisfies EmittedAsset);
 		});
 	}
