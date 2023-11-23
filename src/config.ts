@@ -23,7 +23,7 @@ export const config = ({ outDir = null, blockFile = null } = {}) => {
       },
       outDir: outDir ? outDir + block : resolve(pwd, "../../../build/" + block),
       rollupOptions: {},
-      target: "esnext",
+      target: "es2015",
       minify: true,
       cssCodeSplit: true, // This option stops the default `styles.css` from being bundled
     },
