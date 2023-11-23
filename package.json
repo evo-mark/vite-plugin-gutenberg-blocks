@@ -19,7 +19,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/south-coast-web/vite-plugin-gutenberg-blocks.git"
+		"url": "git+https://github.com/evo-mark/vite-plugin-gutenberg-blocks.git"
 	},
 	"keywords": [
 		"vite",
@@ -28,9 +28,9 @@
 		"blocks",
 		"react"
 	],
-	"author": "southcoastweb",
+	"author": "evomark",
 	"license": "MIT",
-	"homepage": "https://southcoastweb.co.uk",
+	"homepage": "https://evomark.co.uk",
 	"devDependencies": {
 		"@types/grecaptcha": "^3.0.4",
 		"@types/node": "^20.0.0",
