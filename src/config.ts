@@ -1,5 +1,4 @@
 import { resolve, sep } from "node:path";
-import { readFileSync } from "node:fs";
 
 /**
  * config
@@ -23,7 +22,7 @@ export const config = ({ outDir = null, blockFile = null } = {}) => {
       },
       outDir: outDir ? outDir + block : resolve(pwd, "../../../build/" + block),
       rollupOptions: {},
-      target: "es2015",
+      target: "es2020",
       minify: true,
       cssCodeSplit: true, // This option stops the default `styles.css` from being bundled
     },
