@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "npx lerna run dev",
 		"build": "npx lerna run build",
-		"create": "npx vite-plugin-gutenberg-blocks create"
+		"create": "npx -p vite-plugin-gutenberg-blocks create"
 	},
     "engines": {
         "node": "^18.0.0 || ^20.0.0 || ^21.0.0"
