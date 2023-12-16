@@ -12,7 +12,7 @@
       "resolveJsonModule": true,
       "isolatedModules": true,
       "strict": false,
-      "module": "CommonJS",
+      "module": "ES2020",
       "strictBindCallApply": true,
       "noFallthroughCasesInSwitch": false,
       "baseUrl": "./",
