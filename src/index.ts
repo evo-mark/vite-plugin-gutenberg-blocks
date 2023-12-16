@@ -2,13 +2,13 @@ import type { PluginContext, InputOptions } from "rollup";
 import { sep } from "node:path";
 import { readFileSync } from "node:fs";
 import type { ResolvedConfig } from "vite";
-import { sideload } from "./buildStart";
-import { config } from "./config";
-import { generateBundle } from "./generateBundle";
-import { options } from "./options";
-import { outputOptions } from "./outputOptions";
-import generatePlugins from "./plugins";
-import { transform, type WordpressBlockJson } from "./transform";
+import { sideload } from "./buildStart.js";
+import { config } from "./config.js";
+import { generateBundle } from "./generateBundle.js";
+import { options } from "./options.js";
+import { outputOptions } from "./outputOptions.js";
+import generatePlugins from "./plugins.js";
+import { transform, type WordpressBlockJson } from "./transform.js";
 
 interface PluginConfig {
 	watch?: string[];

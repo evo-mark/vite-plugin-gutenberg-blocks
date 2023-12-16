@@ -1,4 +1,4 @@
-import { generateFileHash, generatePhpAssetFile } from "./utils";
+import { generateFileHash, generatePhpAssetFile } from "./utils.js";
 import type { SourceMap } from "node:module";
 import type { OutputOptions, PluginContext } from "rollup";
 

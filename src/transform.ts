@@ -6,7 +6,7 @@ import postscss from "postcss-scss";
 import postcssNested from "postcss-nested";
 import { sep } from "node:path";
 import autoprefixer from "autoprefixer";
-import type { EmittedAsset } from "./generateBundle";
+import type { EmittedAsset } from "./generateBundle.js";
 
 export interface WordpressBlockJson {
 	style: string | string[];
