@@ -39,8 +39,9 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 				rootDirectory = options.input[0].substring(0, options.input[0].lastIndexOf("/"));
 				watch.forEach((file) => this.addWatchFile(file));
 
-				sideload.call(this, blockFile, outputDirectory);
+				await sideload.call(this, blockFile, outputDirectory);
 			},
+
 			transform: function (code: string, id: string) {
 				transform.call(this, code, id, rootDirectory, blockFile);
 			},

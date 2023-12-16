@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-gutenberg-blocks",
-	"version": "2.0.3",
+	"version": "2.1.0",
 	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
@@ -12,11 +12,14 @@
 		"prepublishOnly": "npm run build"
 	},
 	"bin": {
-		"init": "scripts/createDevelopmentEnvironment.js"
+		"init": "bin/initEnvironment.js",
+		"create": "bin/createBlock.js"
 	},
 	"files": [
 		"/dist",
-		"/scripts"
+		"/scripts",
+		"/bin",
+		"/stubs"
 	],
 	"repository": {
 		"type": "git",
@@ -51,6 +54,7 @@
 		"autoprefixer": "^10.4.13",
 		"cssnano": "^6.0.0",
 		"postcss-nested": "^6.0.1",
-		"vite-plugin-static-copy": ">=0.17.0"
+		"vite-plugin-static-copy": ">=0.17.0",
+		"chalk": "^2.0.0"
 	}
 }

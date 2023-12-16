@@ -4,7 +4,7 @@ import { build as esBuild } from "esbuild";
 import { resolve } from "node:path";
 import type { WordpressBlockJson } from "./transform.js";
 
-const normaliseArray = (source) => (Array.isArray(source) ? source : [source]);
+const normaliseArray = (source: unknown) => (Array.isArray(source) ? source : [source]);
 
 export async function sideload(blockJson: WordpressBlockJson, outputDirectory: string) {
 	// Load the block.json options for "script" (frontend/backend) and "viewScript" (frontend)
@@ -26,7 +26,7 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 		const scriptPath = resolve(`${process.env.PWD}/src/${script}`);
 		// Vite won't track this file for watching, so we'll add a manual watcher
 		this.addWatchFile("./src/" + script);
-		let imports = [];
+		let wpImports = [];
 		// Build the script as a sideloaded file that isn't injected into the main bundle
 		const result = await esBuild({
 			entryPoints: [scriptPath],
@@ -34,6 +34,7 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 			platform: "browser",
 			bundle: true,
 			write: false,
+			metafile: true,
 			plugins: [
 				{
 					name: "alias-wordpress",
@@ -49,7 +50,7 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 						// Generate a shim for @wordpress/* imports
 						build.onLoad({ filter: /.*/, namespace: "wordpress-alias" }, (args) => {
 							const moduleName = args.path.split("/")[1];
-							imports.push("wp-" + moduleName);
+							wpImports.push("wp-" + moduleName);
 							return {
 								contents: `
                 const wpModule = window.wp.${moduleName};
@@ -67,13 +68,24 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 			],
 		});
 
+		const bundledDependencies = Object.keys(result.metafile.inputs).filter((dep) => {
+			if (dep === "src/" + script) return false;
+			if (/:/.test(dep)) return false;
+			else return true;
+		});
+
+		bundledDependencies.forEach((dep) => {
+			this.addWatchFile("./" + dep);
+		});
+
 		result.outputFiles.forEach((file) => {
 			const hash = generateFileHash(file.text);
 			const filename = extractFilenameWithoutExtension(script);
+
 			this.emitFile({
 				type: "asset",
 				fileName: filename + ".asset.php",
-				source: generatePhpAssetFile(imports, hash),
+				source: generatePhpAssetFile(wpImports, hash),
 			} satisfies EmittedAsset);
 			this.emitFile({
 				type: "asset",
@@ -82,4 +94,6 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 			} satisfies EmittedAsset);
 		});
 	}
+
+	return true;
 }

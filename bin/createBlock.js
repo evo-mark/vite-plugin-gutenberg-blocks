@@ -1,6 +1,9 @@
+#!/usr/bin/env node
+
 import { createInterface } from "readline";
 import { mkdirSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import chalk from "chalk";
 
 const __dirname = resolve();
 
@@ -62,9 +65,8 @@ const validateOptions = (company, namespace, slug, dir) => {
 };
 
 const startApp = async () => {
-	let company = await readLineAsync("What NPM package namespace should be used? ");
-    if (company) company = "@" + company + "/";
-    else company = "";
+	let company = await readLineAsync("What NPM package namespace should be used? (leave empty for none) ");
+	company = company.replace(/^@/, "");
 
 	const namespace = await readLineAsync("What library namespace would you like to use? ");
 	const blockName = await readLineAsync("What is the name of the new block? ");
@@ -78,6 +80,8 @@ const startApp = async () => {
 		mkdirSync(dir);
 		mkdirSync(`${dir}/src`);
 	}
+	if (company) company = "@" + company + "/";
+	else company = "";
 
 	const stubs = walk(resolve("./stubs"));
 	for (const stub of stubs) {
@@ -86,13 +90,13 @@ const startApp = async () => {
 		// e.g. "src/save.jsx"
 		const outputPath = `${dir}/${stub.replace(join(__dirname, `/stubs/`), "").replace(/\.stub$/, "")}`;
 		contents = contents
-            .replace(/##company##/gi, company)
+			.replace(/##company##/gi, company)
 			.replace(/##namespace##/gi, namespace)
 			.replace(/##block##/g, slug)
 			.replace(/##name##/g, blockName);
 		writeFileSync(outputPath, contents);
 	}
-	console.log(`Complete`);
+	console.log(chalk.green("Complete"));
 };
 
 startApp();
