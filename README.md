@@ -20,4 +20,6 @@ Develop a Gutenberg block library powered by Vite, with support for build and wa
 
 ---
 
-For installation and documentation instructions, go to [southcoastweb](https://southcoastweb.co.uk/open-source-software/vite-plugin-gutenberg-blocks/)
+For installation and documentation instructions, go to [evoMark](https://evomark.co.uk/open-source-software/vite-plugin-gutenberg-blocks/)
+
+For information on how to upgrade from version 1.x to 2.x, please see [Migrating to Version 2.x](https://evomark.co.uk/open-source-software/vite-plugin-gutenberg-blocks#page_heading_5)

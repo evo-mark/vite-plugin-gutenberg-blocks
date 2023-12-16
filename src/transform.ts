@@ -9,10 +9,10 @@ import autoprefixer from "autoprefixer";
 import type { EmittedAsset } from "./generateBundle";
 
 export interface WordpressBlockJson {
-  style: string | string[];
-  editorStyle: string;
-  viewScript?: string | string[];
-  script?: string | string[];
+	style: string | string[];
+	editorStyle: string;
+	viewScript?: string | string[];
+	script?: string | string[];
 }
 
 /**
@@ -26,44 +26,39 @@ export interface WordpressBlockJson {
  * @see https://rollupjs.org/plugin-development/#transform
  */
 export async function transform(
-  this: PluginContext,
-  code: string,
-  id: string,
-  rootDirectory: string,
-  blockFile: WordpressBlockJson
+	this: PluginContext,
+	code: string,
+	id: string,
+	rootDirectory: string,
+	blockFile: WordpressBlockJson
 ): Promise<string | boolean | void> {
-  const isCss = /\.css/i.test(id) === true;
-  const isScss = /\.scss/i.test(id) === true;
-  if (!isCss && !isScss) return;
+	const isCss = /\.css/i.test(id) === true;
+	const isScss = /\.scss/i.test(id) === true;
+	if (!isCss && !isScss) return;
 
-  const cssFilePath = id
-    .replace(process.cwd() + sep + "src", "")
-    .replace(/\\/g, "/")
-    .replace("/", "")
-    .replace(/\.scss/i, ".css");
+	const cssFilePath = id
+		.replace(process.cwd() + sep + "src", "")
+		.replace(/\\/g, "/")
+		.replace("/", "")
+		.replace(/\.scss/i, ".css");
 
-  const chain = [postcssNested, cssnano, autoprefixer] as Array<AcceptedPlugin>;
-  /* @ts-ignore */
-  if (isScss) chain.unshift(postscss);
+	const chain = [postcssNested, cssnano, autoprefixer] as Array<AcceptedPlugin>;
+	/* @ts-ignore */
+	if (isScss) chain.unshift(postscss);
 
-  const output = await postcss(chain).process(code);
+	const output = await postcss(chain).process(code);
 
-  const style = (
-    Array.isArray(blockFile?.style) ? blockFile?.style : [blockFile?.style]
-  ) as Array<string>;
-  const editorStyle = [blockFile?.editorStyle];
-  const stylesheets = ([...style, editorStyle].flat(Infinity) as string[]).map(
-    (s) => s.replace("file:.", "")
-  );
-  const relativeId = id
-    .replace(new RegExp(rootDirectory), "")
-    .replace(/\.s?css$/i, ".css");
-  if (stylesheets.includes(relativeId.replace(/\.s?css^/i, "")) === false)
-    return output.css;
+	const style = (Array.isArray(blockFile?.style) ? blockFile?.style : [blockFile?.style]) as Array<string>;
+	const editorStyle = [blockFile?.editorStyle];
+	const stylesheets = ([...style, editorStyle].flat(Infinity) as string[])
+		.filter((s) => !!s)
+		.map((s) => s.replace("file:.", ""));
+	const relativeId = id.replace(new RegExp(rootDirectory), "").replace(/\.s?css$/i, ".css");
+	if (stylesheets.includes(relativeId.replace(/\.s?css^/i, "")) === false) return output.css;
 
-  this.emitFile({
-    type: "asset",
-    fileName: cssFilePath,
-    source: output.css,
-  } satisfies EmittedAsset);
+	this.emitFile({
+		type: "asset",
+		fileName: cssFilePath,
+		source: output.css,
+	} satisfies EmittedAsset);
 }
