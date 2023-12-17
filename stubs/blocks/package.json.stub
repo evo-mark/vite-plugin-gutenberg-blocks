@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
     "type": "module",
-	"main": "index.js",
+	"main": "build/index.js",
 	"scripts": {
 		"dev": "vite build --emptyOutDir --watch",
 		"build": "vite build --emptyOutDir",
@@ -12,7 +12,7 @@
     "devDependencies": {
         "autoprefixer": "^10.4.14",
         "postcss-import": "^15.1.0",
-        "vite-plugin-gutenberg-blocks": "^2.0.0
+        "vite-plugin-gutenberg-blocks": "^2.0.0"
     },
 	"keywords": [],
 	"author": "",

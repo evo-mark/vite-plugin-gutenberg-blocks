@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-gutenberg-blocks",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"description": "Vite-powered Gutenberg block development for Wordpress",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
@@ -13,7 +13,8 @@
 	},
 	"bin": {
 		"init": "./bin/initEnvironment.js",
-		"create": "./bin/createBlock.js"
+		"create": "./bin/createBlock.js",
+		"publish": "./bin/publish.js"
 	},
 	"files": [
 		"/dist",

@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
-import { createInterface } from "readline";
+import { createInterface } from "node:readline/promises";
 import { mkdirSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join, resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import chalk from "chalk";
 
+const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)) + "/../");
 const __dirname = resolve();
 
 const slugify = (str) =>
@@ -15,18 +17,10 @@ const slugify = (str) =>
 		.replace(/[\s_-]+/g, "-")
 		.replace(/^-+|-+$/g, "");
 
-const readline = createInterface({
+const rl = createInterface({
 	input: process.stdin,
 	output: process.stdout,
 });
-
-const readLineAsync = (msg) => {
-	return new Promise((resolve) => {
-		readline.question(msg, (userRes) => {
-			resolve(userRes);
-		});
-	});
-};
 
 function walk(dir) {
 	return readdirSync(dir, { withFileTypes: true }).flatMap((file) =>
@@ -65,12 +59,12 @@ const validateOptions = (company, namespace, slug, dir) => {
 };
 
 const startApp = async () => {
-	let company = await readLineAsync("What NPM package namespace should be used? (leave empty for none) ");
+	let company = await rl.question("What NPM package namespace should be used? (leave empty for none) ");
 	company = company.replace(/^@/, "");
 
-	const namespace = await readLineAsync("What library namespace would you like to use? ");
-	const blockName = await readLineAsync("What is the name of the new block? ");
-	readline.close();
+	const namespace = await rl.question("What library namespace would you like to use? ");
+	const blockName = await rl.question("What is the name of the new block? ");
+	rl.close();
 	const slug = slugify(blockName);
 	const dir = join(__dirname, `packages/${slug}`);
 
@@ -83,12 +77,16 @@ const startApp = async () => {
 	if (company) company = "@" + company + "/";
 	else company = "";
 
-	const stubs = walk(resolve("./stubs"));
+	const stubs = walk(resolve(`${pkgRoot}/stubs/blocks`));
 	for (const stub of stubs) {
 		if (/\.stub$/i.test(stub) === false) continue;
-		let contents = readFileSync(stub, "utf8");
+		const relativePath = stub.replace(`${pkgRoot}/stubs/blocks/`, "");
+		const overridePath = __dirname + "/stubs/" + relativePath;
+		const resolvedSource = existsSync(overridePath) ? overridePath : stub;
+
+		let contents = readFileSync(resolvedSource, "utf8");
 		// e.g. "src/save.jsx"
-		const outputPath = `${dir}/${stub.replace(join(__dirname, `/stubs/`), "").replace(/\.stub$/, "")}`;
+		const outputPath = `${dir}/${relativePath.replace(/\.stub$/, "")}`;
 		contents = contents
 			.replace(/##company##/gi, company)
 			.replace(/##namespace##/gi, namespace)
@@ -97,6 +95,7 @@ const startApp = async () => {
 		writeFileSync(outputPath, contents);
 	}
 	console.log(chalk.green("Complete"));
+	process.exit(1);
 };
 
 startApp();
