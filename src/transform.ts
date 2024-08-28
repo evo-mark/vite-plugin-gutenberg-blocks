@@ -1,18 +1,21 @@
 import { PluginContext } from "rollup";
-import postcss from "postcss";
-import type { AcceptedPlugin } from "postcss";
-import cssnano from "cssnano";
-import postscss from "postcss-scss";
-import postcssNested from "postcss-nested";
 import { sep } from "node:path";
-import autoprefixer from "autoprefixer";
 import type { EmittedAsset } from "./generateBundle.js";
+import { preprocessCSS, ResolvedConfig } from "vite";
 
 export interface WordpressBlockJson {
 	style: string | string[];
-	editorStyle: string;
+	editorStyle?: string | string[];
+	viewStyle?: string | string[];
 	viewScript?: string | string[];
 	script?: string | string[];
+}
+
+function trimSlashes(filename: string): string {
+	return filename.replace(/^[/\\]+|[/\\]+$/g, "");
+}
+function wrapArray<T>(maybeArray: T | T[]): T[] {
+	return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 
 /**
@@ -29,36 +32,34 @@ export async function transform(
 	this: PluginContext,
 	code: string,
 	id: string,
-	rootDirectory: string,
-	blockFile: WordpressBlockJson
+	blockFile: WordpressBlockJson,
+	config: ResolvedConfig
 ): Promise<string | boolean | void> {
-	const isCss = /\.css/i.test(id) === true;
-	const isScss = /\.scss/i.test(id) === true;
-	if (!isCss && !isScss) return;
+	const [filename] = id.split("?");
+	const isStylesheet = /\.(post|s)?css$/i.test(filename) === true;
+	if (!isStylesheet) return;
 
-	const cssFilePath = id
-		.replace(process.cwd() + sep + "src", "")
-		.replace(/\\/g, "/")
-		.replace("/", "")
-		.replace(/\.scss/i, ".css");
+	const result = await preprocessCSS(code, id, config);
 
-	const chain = [postcssNested, cssnano, autoprefixer] as Array<AcceptedPlugin>;
-	/* @ts-ignore */
-	if (isScss) chain.unshift(postscss);
+	const outputPath = trimSlashes(id.replace(`${process.cwd()}${sep}src`, "").replace(/\\/g, "/")).replace(
+		/\.(post|s)?css$/i,
+		".css"
+	);
 
-	const output = await postcss(chain).process(code);
-
-	const style = (Array.isArray(blockFile?.style) ? blockFile?.style : [blockFile?.style]) as Array<string>;
-	const editorStyle = [blockFile?.editorStyle];
-	const stylesheets = ([...style, editorStyle].flat(Infinity) as string[])
+	const style = blockFile?.style ? wrapArray(blockFile.style) : [];
+	const editorStyle = blockFile?.editorStyle ? wrapArray(blockFile.editorStyle) : [];
+	const viewStyle = blockFile?.viewStyle ? wrapArray(blockFile.viewStyle) : [];
+	const stylesheets = ([...style, ...editorStyle, ...viewStyle].flat(Infinity) as string[])
 		.filter((s) => !!s)
-		.map((s) => s.replace("file:.", ""));
-	const relativeId = id.replace(new RegExp(rootDirectory), "").replace(/\.s?css$/i, ".css");
-	if (stylesheets.includes(relativeId.replace(/\.s?css^/i, "")) === false) return output.css;
+		.map((s) => trimSlashes(s.replace("file:.", "")));
+
+	console.log(stylesheets);
+
+	if (stylesheets.includes(outputPath) === false) return result.code;
 
 	this.emitFile({
 		type: "asset",
-		fileName: cssFilePath,
-		source: output.css,
+		fileName: outputPath,
+		source: result.code,
 	} satisfies EmittedAsset);
 }

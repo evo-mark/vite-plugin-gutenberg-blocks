@@ -1,14 +1,14 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
-import "./editor-style.css";
+import "./editor-style.postcss";
 import "./nested/imported.scss";
 
 export default function Edit({ attributes, setAttributes, isSelected }) {
-  const blockProps = useBlockProps();
+	const blockProps = useBlockProps();
 
-  return [
-    <div key="render" {...blockProps}>
-      // Block goes here
-    </div>,
-  ];
+	return [
+		<div key="render" {...blockProps}>
+			{/* Block goes here */}
+		</div>,
+	];
 }

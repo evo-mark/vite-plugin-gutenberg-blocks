@@ -1,3 +1,5 @@
-.test { 
-    color: green;
+$green : orange;
+
+.test {
+    color: $green;
 }

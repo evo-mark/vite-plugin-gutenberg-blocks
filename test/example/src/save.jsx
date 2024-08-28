@@ -1,11 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
 export default function Save({ attributes }) {
-    const blockProps = useBlockProps.save();
+	const blockProps = useBlockProps.save();
 
-	return (
-		<div {...blockProps}>
-			// Saved block goes here
-		</div>
-	);
+	return <div {...blockProps}>{/* Saved block goes here */}</div>;
 }

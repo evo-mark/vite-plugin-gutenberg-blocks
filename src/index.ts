@@ -15,6 +15,8 @@ interface PluginConfig {
 	outDir?: string;
 }
 
+let _config: ResolvedConfig;
+
 export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 	const pwd = process.env.PWD;
 	let rootDirectory: string;
@@ -31,6 +33,7 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 			name: "vite-plugin-gutenberg-blocks",
 			config: () => config({ outDir: normalisedOut, blockFile }),
 			configResolved(config: ResolvedConfig) {
+				_config = config;
 				outputDirectory = config.build.outDir;
 			},
 			options,
@@ -43,7 +46,7 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 			},
 
 			transform: function (code: string, id: string) {
-				transform.call(this, code, id, rootDirectory, blockFile);
+				transform.call(this, code, id, blockFile, _config);
 			},
 			generateBundle,
 		},

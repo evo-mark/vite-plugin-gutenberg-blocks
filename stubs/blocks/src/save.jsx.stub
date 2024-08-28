@@ -5,7 +5,7 @@ export default function Save({ attributes }) {
 
 	return (
 		<div {...blockProps}>
-            {/* Saved block goes here */}
+            {/* Saved block content goes here */}
 		</div>
 	);
 }

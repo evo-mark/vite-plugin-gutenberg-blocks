@@ -7,7 +7,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 
 	return [
 		<div key="render" {...blockProps}>
-            {/* Block goes here */}
+            {/* Block content goes here */}
 		</div>,
 	];
 }
