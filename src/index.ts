@@ -1,7 +1,8 @@
 import type { PluginContext, InputOptions } from "rollup";
+import type { ResolvedConfig } from "vite";
+
 import { sep } from "node:path";
 import { readFileSync } from "node:fs";
-import type { ResolvedConfig } from "vite";
 import { sideload } from "./buildStart.js";
 import { config } from "./config.js";
 import { generateBundle } from "./generateBundle.js";

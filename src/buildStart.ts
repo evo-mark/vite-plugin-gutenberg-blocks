@@ -1,8 +1,8 @@
-import { generateFileHash, generatePhpAssetFile, extractFilenameWithoutExtension } from "./utils.js";
 import type { EmittedAsset } from "./generateBundle.js";
+import type { WordpressBlockJson } from "./transform.js";
+import { generateFileHash, generatePhpAssetFile, extractFilenameWithoutExtension } from "./utils.js";
 import { build as esBuild } from "esbuild";
 import { resolve } from "node:path";
-import type { WordpressBlockJson } from "./transform.js";
 
 const normaliseArray = (source: unknown) => (Array.isArray(source) ? source : [source]);
 

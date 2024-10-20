@@ -53,8 +53,6 @@ export async function transform(
 		.filter((s) => !!s)
 		.map((s) => trimSlashes(s.replace("file:.", "")));
 
-	console.log(stylesheets);
-
 	if (stylesheets.includes(outputPath) === false) return result.code;
 
 	this.emitFile({
