@@ -41,12 +41,12 @@
     },
     "devDependencies": {
         "@types/grecaptcha": "^3.0.9",
-        "@types/node": "^22.7.7",
-        "@vitejs/plugin-react": "^4.3.3",
+        "@types/node": "^22.10.10",
+        "@vitejs/plugin-react": "^4.3.4",
         "sass": "^1.63.6"
     },
     "optionalDependencies": {
-        "sass": "^1.80.3"
+        "sass": "^1.83.4"
     },
     "peerDependencies": {
         "typescript": ">=4.9.4",
@@ -54,8 +54,8 @@
     },
     "dependencies": {
         "chalk": "^2.4.2",
-        "esbuild": "^0.24.0",
-        "rollup": "^4.24.0",
+        "esbuild": "^0.24.2",
+        "rollup": "^4.32.0",
         "vite-plugin-static-copy": "^1.0.6"
     },
     "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e"
