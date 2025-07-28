@@ -1,5 +1,5 @@
 import { PluginContext } from "rollup";
-import { sep } from "node:path";
+import { sep, resolve } from "node:path";
 import type { EmittedAsset } from "./generateBundle.js";
 import { preprocessCSS, ResolvedConfig } from "vite";
 
@@ -33,7 +33,8 @@ export async function transform(
 	code: string,
 	id: string,
 	blockFile: WordpressBlockJson,
-	config: ResolvedConfig
+	config: ResolvedConfig,
+	entryDir: string
 ): Promise<string | boolean | void> {
 	const [filename] = id.split("?");
 	const isStylesheet = /\.(post|s)?css$/i.test(filename) === true;
@@ -41,10 +42,11 @@ export async function transform(
 
 	const result = await preprocessCSS(code, id, config);
 
-	const outputPath = trimSlashes(id.replace(`${process.cwd()}${sep}src`, "").replace(/\\/g, "/")).replace(
-		/\.(post|s)?css$/i,
-		".css"
-	);
+	const entryAbs = resolve(process.cwd(), entryDir);
+	const idNormalized = id.replace(/\\/g, "/");
+	const entryAbsNormalized = entryAbs.replace(/\\/g, "/");
+
+	const outputPath = trimSlashes(idNormalized.replace(entryAbsNormalized, "")).replace(/\.(post|s)?css$/i, ".css");
 
 	const style = blockFile?.style ? wrapArray(blockFile.style) : [];
 	const editorStyle = blockFile?.editorStyle ? wrapArray(blockFile.editorStyle) : [];

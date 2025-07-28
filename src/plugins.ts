@@ -9,17 +9,17 @@ import { resolve, sep } from "node:path";
 const pwd = process.env.PWD;
 const block = pwd.split(sep).pop();
 
-const generatePlugins = ({ outDir = null } = {}) => {
+const generatePlugins = ({ outDir = null, entryDir = null } = {}) => {
 	const pluginCopy = viteStaticCopy({
 		silent: true,
 		targets: [
 			// Since they're not imported into the bundle, we need to copy these files manually
 			{
-				src: resolve(pwd, "src/block.json"),
+				src: resolve(pwd, entryDir + "/block.json"),
 				dest: ".",
 			},
 			{
-				src: resolve(pwd, "src/*.php"),
+				src: resolve(pwd, entryDir + "/*.php"),
 				dest: ".",
 			},
 		],
