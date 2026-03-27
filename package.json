@@ -37,7 +37,7 @@
 	"license": "MIT",
 	"homepage": "https://evomark.co.uk",
 	"engines": {
-		"node": "^18.0.0 || ^20.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0"
+		"node": "^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || ^25.0.0"
 	},
 	"devDependencies": {
 		"@types/grecaptcha": "^3.0.9",
@@ -50,7 +50,7 @@
 	},
 	"peerDependencies": {
 		"typescript": ">=4.9.4",
-		"vite": "^4.1.1 || ^5.0.0 || ^6.0.0 || ^7.0.0"
+		"vite": "^4.1.1 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
 	},
 	"dependencies": {
 		"chalk": "^5.4.1",
