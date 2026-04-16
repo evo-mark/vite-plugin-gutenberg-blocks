@@ -55,9 +55,11 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 				generateBundle.call(this, options,bundle, dependencies);
 			},
 			closeBundle() {
-				for (const handle of process._getActiveHandles()) {
-					if (handle?.spawnfile?.includes("dart-sass")) {
-						handle.kill();
+				if (process && (process as any)._getActiveHandles) {
+					for (const handle of (process as any)._getActiveHandles()) {
+						if (handle?.spawnfile?.includes("dart-sass")) {
+							handle.kill();
+						}
 					}
 				}
 			},
