@@ -1,4 +1,5 @@
 import { generateFileHash, generatePhpAssetFile } from "./utils.js";
+import { toHandle } from "./outputOptions.js";
 import type { SourceMap } from "node:module";
 import type { OutputOptions, PluginContext } from "rollup";
 import type { ResolvedConfig } from "vite";
@@ -72,10 +73,7 @@ export function generateBundle(
 		if (!file.code) return acc;
 
 		hash = generateFileHash(file.code);
-		file.imports.forEach((i) => {
-			i = i.replace(/^@wordpress\//, "wp-");
-			acc.add(i);
-		}, acc);
+		file.imports.forEach((i) => acc.add(toHandle(i)));
 		return acc;
 	}, new Set()) as Set<string>;
 

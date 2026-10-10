@@ -2,11 +2,11 @@ import { registerBlockType } from "@wordpress/blocks";
 
 import "./style.css";
 
+import metadata from "./block.json";
 import edit from "./edit";
 import save from "./save";
 
-registerBlockType("##namespace##/##block##", {
+registerBlockType(metadata.name, {
 	edit,
 	save,
-	attributes: {},
 });

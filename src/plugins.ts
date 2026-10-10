@@ -6,7 +6,7 @@ import { resolve, sep } from "node:path";
  * External plugins required for the build process
  * ******************************************* */
 
-const pwd = process.env.PWD;
+const pwd = process.cwd();
 const block = pwd.split(sep).pop();
 
 const generatePlugins = ({ outDir = null } = {}) => {
@@ -17,17 +17,21 @@ const generatePlugins = ({ outDir = null } = {}) => {
 			{
 				src: resolve(pwd, "src/block.json"),
 				dest: ".",
+				// v4 keeps the source folders by default, but WordPress expects these at the block root
+				rename: { stripBase: true },
 			},
 			{
 				src: resolve(pwd, "src/*.php"),
 				dest: ".",
+				rename: { stripBase: true },
 			},
 		],
 	});
 
+	// JSX compiles to react/jsx-runtime imports, which map to WordPress's react-jsx-runtime script
 	const pluginReact = react({
-		jsxRuntime: "classic",
-		jsxImportSource: "@wordpress/element",
+		jsxRuntime: "automatic",
+		jsxImportSource: "react",
 	});
 
 	return [pluginCopy, pluginReact];

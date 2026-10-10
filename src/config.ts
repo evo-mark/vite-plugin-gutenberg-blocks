@@ -8,7 +8,7 @@ import { resolve, sep } from "node:path";
  * @see https://vitejs.dev/guide/api-plugin.html#config
  */
 export const config = ({ outDir = null, blockFile = null } = {}) => {
-	const pwd = process.env.PWD;
+	const pwd = process.cwd();
 	const block = pwd.split(sep).pop();
 
 	return {
@@ -19,12 +19,16 @@ export const config = ({ outDir = null, blockFile = null } = {}) => {
 				name: "index",
 				formats: ["iife"],
 				fileName: () => "index.js",
+				// Where Vite bundles any stylesheets not declared in block.json
+				cssFileName: "index",
 			},
 			outDir: outDir ? outDir + block : resolve(pwd, "../../../build/" + block),
 			rollupOptions: {},
 			target: "es2020",
 			minify: true,
-			cssCodeSplit: true, // This option stops the default `styles.css` from being bundled
+			// Stylesheets declared in block.json are emitted by the transform hook. Without code
+			// splitting, Vite neither injects CSS into the iife nor writes an empty CSS bundle
+			cssCodeSplit: false,
 		},
 	};
 };

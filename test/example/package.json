@@ -1,23 +1,23 @@
 {
-    "name": "example-block",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "dev": "vite build --emptyOutDir --watch",
-        "build": "vite build --emptyOutDir",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@wordpress/i18n": "^5.6.0",
-        "autoprefixer": "^10.4.20",
-        "postcss-import": "^16.1.0",
-        "postcss-nested": "^6.2.0",
-        "postcss-scss": "^4.0.9",
-        "sass": "^1.77.8"
-    }
+	"name": "example-block",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "vite build --emptyOutDir --watch",
+		"build": "vite build --emptyOutDir",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@wordpress/i18n": "^5.6.0",
+		"autoprefixer": "^10.4.20",
+		"postcss-import": "^16.1.0",
+		"postcss-nested": "^6.2.0",
+		"postcss-scss": "^4.0.9",
+		"sass": "^1.77.8"
+	}
 }

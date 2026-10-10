@@ -13,7 +13,7 @@ const rl = createInterface({
 
 (async function () {
 	const shouldPublish = await rl.question(
-		"Do you want to publish the stub files to your development folder? (yes/y or no/n) "
+		"Do you want to publish the stub files to your development folder? (yes/y or no/n) ",
 	);
 
 	const __dirname = resolve(dirname(fileURLToPath(import.meta.url)) + "/../");
@@ -34,17 +34,17 @@ const rl = createInterface({
 	copyFileSync(
 		resolve(__dirname + "/stubs/register-blocks.php.stub"),
 		resolve(cwd + "/register-blocks.php"),
-		fsConstants.COPYFILE_FICLONE
+		fsConstants.COPYFILE_FICLONE,
 	);
 	copyFileSync(
 		resolve(__dirname + "/stubs/package.json.stub"),
 		resolve(cwd + "/development/package.json"),
-		fsConstants.COPYFILE_FICLONE
+		fsConstants.COPYFILE_FICLONE,
 	);
 	copyFileSync(
 		resolve(__dirname + "/stubs/lerna.json.stub"),
 		resolve(cwd + "/development/lerna.json"),
-		fsConstants.COPYFILE_FICLONE
+		fsConstants.COPYFILE_FICLONE,
 	);
 
 	const ignore = `build
@@ -53,5 +53,5 @@ const rl = createInterface({
 	writeFileSync(resolve(cwd + "/development/.gitignore"), ignore, { encoding: "utf-8" });
 
 	console.log(chalk.green("Development environment created successfully"));
-	process.exit(1);
+	process.exit(0);
 })();

@@ -19,4 +19,4 @@ if (existsSync(target)) {
 
 cpSync(resolve(__dirname + "/stubs/blocks"), target, { recursive: true });
 console.log(chalk.green("Stubs published successfully"));
-process.exit(1);
+process.exit(0);

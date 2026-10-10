@@ -1,29 +1,22 @@
 {
-    "compilerOptions": {
-      "target": "ES2020",
-      "lib": [
-        "ES2020"
-      ],
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "forceConsistentCasingInFileNames": true,
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "strict": false,
-      "module": "ES2020",
-      "moduleResolution": "node",
-      "strictBindCallApply": true,
-      "noFallthroughCasesInSwitch": false,
-      "baseUrl": "./",
-      "outDir": "./dist",
-      "declaration": true,
-    },
-    "include": [
-      "src"
-    ],
-    "exclude": [
-      "node_modules",
-      "dist"
-    ]
-  }
+	"compilerOptions": {
+		"target": "ES2020",
+		"lib": ["ES2020", "DOM"],
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"strict": false,
+		"module": "ES2020",
+		"moduleResolution": "bundler",
+		"strictBindCallApply": true,
+		"noFallthroughCasesInSwitch": false,
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"declaration": true
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
+}

@@ -24,7 +24,7 @@ const rl = createInterface({
 
 function walk(dir) {
 	return readdirSync(dir, { withFileTypes: true }).flatMap((file) =>
-		file.isDirectory() ? walk(join(dir, file.name)) : join(dir, file.name)
+		file.isDirectory() ? walk(join(dir, file.name)) : join(dir, file.name),
 	);
 }
 
@@ -34,12 +34,12 @@ const exit = (msg) => {
 };
 
 const validateOptions = (company, namespace, slug, dir) => {
-	if (/[^a-zA-Z0-9-]/.test(company) === true) {
+	if (/[^a-z0-9-]/.test(company) === true) {
 		exit("NPM package namespace can only contain lowercase letters, numbers and hyphens");
 	}
 
 	if (!namespace) exit("No namespace specified!");
-	if (/[^a-zA-Z0-9-]/.test(namespace) === true) {
+	if (/[^a-z0-9-]/.test(namespace) === true) {
 		exit("Namespace can only contain lowercase letters, numbers and hyphens");
 	}
 	if (/^[^a-z]/.test(namespace) === true) exit("Namespace must start with a letter");
@@ -47,7 +47,7 @@ const validateOptions = (company, namespace, slug, dir) => {
 		exit("Namespace cannot contain two consecutive hyphens");
 	}
 	if (!slug) exit("No slug given!");
-	if (/[^a-zA-Z0-9-]/.test(slug) === true) {
+	if (/[^a-z0-9-]/.test(slug) === true) {
 		exit("Block name can only contain lowercase letters, numbers and hyphens");
 	}
 	if (/^[^a-z]/.test(slug) === true) exit("Block name must start with a letter");
@@ -95,7 +95,7 @@ const startApp = async () => {
 		writeFileSync(outputPath, contents);
 	}
 	console.log(chalk.green("Complete"));
-	process.exit(1);
+	process.exit(0);
 };
 
 startApp();

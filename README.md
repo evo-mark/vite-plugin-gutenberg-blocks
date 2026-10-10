@@ -22,4 +22,4 @@ Develop a Gutenberg block library powered by Vite, with support for build and wa
 
 For installation and documentation instructions, go to [evoMark](https://evomark.co.uk/open-source-software/vite-plugin-gutenberg-blocks/)
 
-For information on how to upgrade from version 1.x to 2.x, please see [Migrating to Version 2.x](https://evomark.co.uk/open-source-software/vite-plugin-gutenberg-blocks#page_heading_5)
+For information on how to upgrade from version 2.x to 3.x see the [MIGRATION.md](https://github.com/evo-mark/vite-plugin-gutenberg-blocks/blob/main/MIGRATION.md) file

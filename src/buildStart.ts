@@ -1,6 +1,7 @@
 import type { EmittedAsset } from "./generateBundle.js";
 import type { WordpressBlockJson } from "./transform.js";
 import { generateFileHash, generatePhpAssetFile, extractFilenameWithoutExtension } from "./utils.js";
+import { external, wordpressMatch, toWpGlobal, toHandle } from "./outputOptions.js";
 import { build as esBuild } from "esbuild";
 import { resolve } from "node:path";
 
@@ -23,10 +24,10 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 		});
 
 	for (const script of concatScripts) {
-		const scriptPath = resolve(`${process.env.PWD}/src/${script}`);
+		const scriptPath = resolve(`${process.cwd()}/src/${script}`);
 		// Vite won't track this file for watching, so we'll add a manual watcher
 		this.addWatchFile("./src/" + script);
-		let wpImports = [];
+		const wpImports = new Set<string>();
 		// Build the script as a sideloaded file that isn't injected into the main bundle
 		const result = await esBuild({
 			entryPoints: [scriptPath],
@@ -35,31 +36,32 @@ export async function sideload(blockJson: WordpressBlockJson, outputDirectory: s
 			bundle: true,
 			write: false,
 			metafile: true,
+			// Compile any JSX to react/jsx-runtime imports, which resolve to WordPress's copy below
+			jsx: "automatic",
 			plugins: [
 				{
 					name: "alias-wordpress",
 					setup(build) {
-						// Intercept @wordpress/* paths
-						build.onResolve({ filter: /^@wordpress\// }, (args) => {
-							return {
-								path: args.path,
-								namespace: "wordpress-alias",
-							};
-						});
+						// Intercept @wordpress/* paths and the static externals. Bundled packages like
+						// @wordpress/icons fall through to normal resolution. esbuild filters are Go
+						// regexes without lookahead, so the exclusions are checked in the callback
+						build.onResolve(
+							{ filter: /^(@wordpress\/|(react|react-dom|react\/jsx-runtime|lodash|lodash-es|jquery|moment)$)/ },
+							(args) => {
+								if (!external[args.path] && !wordpressMatch.test(args.path)) return undefined;
+								return {
+									path: args.path,
+									namespace: "wordpress-alias",
+								};
+							},
+						);
 
-						// Generate a shim for @wordpress/* imports
+						// Re-export the matching window global, so default imports get the module itself
 						build.onLoad({ filter: /.*/, namespace: "wordpress-alias" }, (args) => {
-							const moduleName = args.path.split("/")[1];
-							wpImports.push("wp-" + moduleName);
+							wpImports.add(toHandle(args.path));
+							const global = external[args.path] ?? "window." + toWpGlobal(args.path);
 							return {
-								contents: `
-                const wpModule = window.wp.${moduleName};
-                for (const key in wpModule) {
-                  if (Object.prototype.hasOwnProperty.call(wpModule, key)) {
-                    exports[key] = wpModule[key];
-                  }
-                }
-              `,
+								contents: `module.exports = ${global};`,
 								loader: "js",
 							};
 						});

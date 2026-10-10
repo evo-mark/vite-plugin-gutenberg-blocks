@@ -1,7 +1,7 @@
 import { PluginContext } from "rollup";
-import { sep } from "node:path";
+import { resolve } from "node:path";
 import type { EmittedAsset } from "./generateBundle.js";
-import { preprocessCSS, ResolvedConfig } from "vite";
+import { preprocessCSS, normalizePath, ResolvedConfig } from "vite";
 
 export interface WordpressBlockJson {
 	style: string | string[];
@@ -34,17 +34,16 @@ export async function transform(
 	id: string,
 	blockFile: WordpressBlockJson,
 	config: ResolvedConfig
-): Promise<string | boolean | void> {
+): Promise<string | { code: string; map: null } | void> {
 	const [filename] = id.split("?");
 	const isStylesheet = /\.(post|s)?css$/i.test(filename) === true;
 	if (!isStylesheet) return;
 
 	const result = await preprocessCSS(code, id, config);
 
-	const outputPath = trimSlashes(id.replace(`${process.cwd()}${sep}src`, "").replace(/\\/g, "/")).replace(
-		/\.(post|s)?css$/i,
-		".css"
-	);
+	// Vite ids use forward slashes on every platform, so normalise the src folder to match
+	const srcDir = normalizePath(resolve(process.cwd(), "src"));
+	const outputPath = trimSlashes(normalizePath(filename).replace(srcDir, "")).replace(/\.(post|s)?css$/i, ".css");
 
 	const style = blockFile?.style ? wrapArray(blockFile.style) : [];
 	const editorStyle = blockFile?.editorStyle ? wrapArray(blockFile.editorStyle) : [];
@@ -53,11 +52,17 @@ export async function transform(
 		.filter((s) => !!s)
 		.map((s) => trimSlashes(s.replace("file:.", "")));
 
-	if (stylesheets.includes(outputPath) === false) return result.code;
+	if (stylesheets.includes(outputPath) === false) {
+		this.warn(`${outputPath} is not declared in block.json so WordPress will not load it`);
+		return result.code;
+	}
 
 	this.emitFile({
 		type: "asset",
 		fileName: outputPath,
 		source: result.code,
 	} satisfies EmittedAsset);
+
+	// Emitted as its own file, so leave nothing for Vite to inject into the JS bundle
+	return { code: "", map: null };
 }

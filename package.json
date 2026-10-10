@@ -37,32 +37,31 @@
 	"license": "MIT",
 	"homepage": "https://evomark.co.uk",
 	"engines": {
-		"node": "^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || ^25.0.0"
+		"node": "^22.0.0 || ^24.0.0 || ^25.0.0 || ^26.0.0"
 	},
 	"devDependencies": {
 		"@types/grecaptcha": "^3.0.9",
-		"@types/node": "^22.18.1",
-		"@vitejs/plugin-react": "^4.7.0",
-		"sass": "^1.63.6"
+		"@types/node": "^26.6.5",
+		"@vitejs/plugin-react": "^6.1.2",
+		"sass": "^1.105.0"
 	},
 	"optionalDependencies": {
-		"sass": "^1.92.1"
+		"sass": "^1.92.0"
 	},
 	"peerDependencies": {
-		"typescript": ">=4.9.4",
-		"vite": "^4.1.1 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+		"typescript": ">=6.0.0",
+		"vite": ">=8.0.0"
+	},
+	"peerDependenciesMeta": {
+		"typescript": {
+			"optional": true
+		}
 	},
 	"dependencies": {
-		"chalk": "^5.6.0",
-		"esbuild": "^0.25.9",
-		"rollup": "^4.50.1",
-		"vite-plugin-static-copy": "^3.1.2"
+		"chalk": "^6.0.1",
+		"esbuild": "^0.28.2",
+		"rollup": "^4.64.5",
+		"vite-plugin-static-copy": "^4.1.1"
 	},
-	"packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b",
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@parcel/watcher",
-			"esbuild"
-		]
-	}
+	"packageManager": "pnpm@12.11.2+sha512.25a51652a196785af5f28bda6dfe8dc582ebefa4ac1d180221ce1390231c5fb76637822ea4b6e4633ce74acdcb0a77f725af11bad38177fdeddaee818a955cb9"
 }
