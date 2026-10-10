@@ -2,9 +2,11 @@ import type { PluginContext, InputOptions, OutputOptions } from "rollup";
 import type { ResolvedConfig } from "vite";
 
 import { readFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { sideload } from "./buildStart.js";
 import { config } from "./config.js";
 import { generateBundle, type ChunkInfo, type AssetInfo } from "./generateBundle.js";
+import { writeBlocksManifest } from "./manifest.js";
 import { options } from "./options.js";
 import { outputOptions } from "./outputOptions.js";
 import generatePlugins from "./plugins.js";
@@ -51,7 +53,10 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 			generateBundle: function (options: OutputOptions, bundle: { [fileName: string]: ChunkInfo | AssetInfo }) {
 				generateBundle.call(this, options, bundle, dependencies);
 			},
-			closeBundle() {
+			closeBundle(this: PluginContext) {
+				// Every block's output folder sits side by side in the build folder
+				writeBlocksManifest.call(this, dirname(outputDirectory));
+
 				if (process && (process as any)._getActiveHandles) {
 					for (const handle of (process as any)._getActiveHandles()) {
 						if (handle?.spawnfile?.includes("dart-sass")) {

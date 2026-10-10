@@ -1,15 +1,39 @@
 <?php
 
-add_action('init', function() {
+$vite_block_categories = [];
+
+add_action('init', function() use (&$vite_block_categories) {
     $build_dir = __DIR__ . "/build";
+    $manifest = $build_dir . '/blocks-manifest.php';
 
-    foreach (scandir($build_dir) as $result) {
-        $block_location = $build_dir . '/' . $result;
-
-        if (!is_dir($block_location) || '.' === $result || '..' === $result) {
-            continue;
-        }
-
-        register_block_type($block_location);
+    // WordPress 6.8+: register every block from one cached PHP file instead of reading each block.json
+    if (function_exists('wp_register_block_types_from_metadata_collection') && file_exists($manifest)) {
+        wp_register_block_types_from_metadata_collection($build_dir, $manifest);
+        $vite_block_categories = array_column(require $manifest, 'category');
+        return;
     }
+
+    foreach (glob($build_dir . '/*/block.json') as $block_json) {
+        $block_type = register_block_type(dirname($block_json));
+        if ($block_type && $block_type->category) {
+            $vite_block_categories[] = $block_type->category;
+        }
+    }
+});
+
+// Register any categories our blocks use that the theme or other plugins haven't
+add_filter('block_categories_all', function ($categories) use (&$vite_block_categories) {
+    $existing = array_column($categories, 'slug');
+
+    foreach (array_unique($vite_block_categories) as $slug) {
+        if (!in_array($slug, $existing, true)) {
+            $categories[] = [
+                'slug'  => $slug,
+                'title' => ucwords(str_replace('-', ' ', $slug)),
+                'icon'  => null,
+            ];
+        }
+    }
+
+    return $categories;
 });
