@@ -14,7 +14,8 @@
 	"bin": {
 		"init": "./bin/initEnvironment.js",
 		"create": "./bin/createBlock.js",
-		"publish": "./bin/publish.js"
+		"publish": "./bin/publish.js",
+		"migrate": "./bin/migrate.js"
 	},
 	"files": [
 		"/dist",
