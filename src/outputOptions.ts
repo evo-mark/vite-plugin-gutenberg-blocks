@@ -1,5 +1,3 @@
-import type { OutputOptions } from "rollup";
-
 const ns = "@wordpress/";
 const nsExclude = ["icons", "interface"];
 export const wordpressMatch = new RegExp(`^${ns}(?!(${nsExclude.join("|")})).*$`); // /^@wordpress\/(?!(icons|interface)).*$/
@@ -41,40 +39,3 @@ export const toWpGlobal = (id: string) =>
  * Converts an import id to the WordPress script handle that provides it
  */
 export const toHandle = (id: string) => handles[id] ?? id.replace(new RegExp(`^${ns}`), "wp-");
-
-/**
- * Returns a custom global resolver that maps external libraries and objects to their `window` counterparts
- */
-export function outputOptions(outputOptions: OutputOptions) {
-	// Save the original resolver so we can use it for files we're not interested in
-	const configGlobals = outputOptions.globals;
-
-	const resolveGlobals = (id: string) => {
-		// options.globals is an object - defer to it
-		if (typeof configGlobals === "object" && configGlobals.hasOwnProperty(id) && configGlobals[id]) {
-			return configGlobals[id];
-		}
-
-		// options.globals is a function - defer to it
-		if (typeof configGlobals === "function") {
-			const configGlobalId = configGlobals(id);
-
-			if (configGlobalId && configGlobalId !== id) {
-				return configGlobalId;
-			}
-		}
-
-		// see if it's a static wp external
-		if (external.hasOwnProperty(id) && external[id]) {
-			return external[id];
-		}
-
-		if (wordpressMatch.test(id)) {
-			return toWpGlobal(id);
-		}
-
-		return "";
-	};
-
-	outputOptions.globals = resolveGlobals;
-}

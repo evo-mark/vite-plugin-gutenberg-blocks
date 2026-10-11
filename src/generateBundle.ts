@@ -1,5 +1,6 @@
 import { generateFileHash, generatePhpAssetFile } from "./utils.js";
 import { toHandle } from "./outputOptions.js";
+import { globalHandles } from "./globals.js";
 import type { SourceMap } from "node:module";
 import type { OutputOptions, PluginContext } from "rollup";
 import type { ResolvedConfig } from "vite";
@@ -76,6 +77,11 @@ export function generateBundle(
 		file.imports.forEach((i) => acc.add(toHandle(i)));
 		return acc;
 	}, new Set()) as Set<string>;
+
+	// WordPress-provided scripts are bundled as virtual modules, so they aren't listed in `imports`
+	for (const handle of globalHandles(bundle)) {
+		imports.add(handle);
+	}
 
 	for (const dependency of dependencies) {
 		imports.add(dependency);

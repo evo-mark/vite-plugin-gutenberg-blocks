@@ -6,9 +6,8 @@ import { dirname } from "node:path";
 import { sideload } from "./buildStart.js";
 import { config } from "./config.js";
 import { generateBundle, type ChunkInfo, type AssetInfo } from "./generateBundle.js";
+import { load, resolveId } from "./globals.js";
 import { writeBlocksManifest } from "./manifest.js";
-import { options } from "./options.js";
-import { outputOptions } from "./outputOptions.js";
 import generatePlugins from "./plugins.js";
 import { transform, type WordpressBlockJson } from "./transform.js";
 
@@ -32,14 +31,19 @@ export const createViteBlock = (pluginConfig = {} as PluginConfig) => {
 
 	return [
 		{
+			// Runs before Vite's resolver, which would otherwise bundle the copies in node_modules
+			name: "vite-plugin-gutenberg-blocks:globals",
+			enforce: "pre" as const,
+			resolveId,
+			load,
+		},
+		{
 			name: "vite-plugin-gutenberg-blocks",
 			config: () => config({ outDir: normalisedOut, blockFile }),
 			configResolved(config: ResolvedConfig) {
 				_config = config;
 				outputDirectory = config.build.outDir;
 			},
-			options,
-			outputOptions,
 			buildStart: async function (this: PluginContext, options: InputOptions) {
 				rootDirectory = options.input[0].substring(0, options.input[0].lastIndexOf("/"));
 				watch.forEach((file) => this.addWatchFile(file));
